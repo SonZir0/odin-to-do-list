@@ -1,11 +1,10 @@
-import 'normalize.css'
-import './../css/base.css'
+import 'normalize.css';
+import './../css/base.css';
+import cogIcon from './../icons/cog-svgrepo-com.svg';
+import plusIcon from './../icons/plus-circle-1427-svgrepo-com.svg';
 
 const newListDialog = document.querySelector(".newList");
 const newTaskDialog = document.querySelector(".newTask");
-
-newListDialog.showModal();
-newTaskDialog.showModal();
 
 newListDialog.addEventListener("close", (event) => {
     console.log(newListDialog.returnValue);
@@ -14,3 +13,22 @@ newListDialog.addEventListener("close", (event) => {
 newTaskDialog.addEventListener("close", (event) => {
     console.log(newTaskDialog.returnValue);
 });
+
+// move elsewhere later, needed for styling/testing
+const optionsBtnsArr = Array.from(document.querySelectorAll('ul button+button'));
+for (const btn of optionsBtnsArr) {
+    const optionsIcon = new Image(35, 35);
+    optionsIcon.src = cogIcon;
+    optionsIcon.setAttribute('aria-label','Edit');
+    btn.appendChild(optionsIcon);
+}
+
+// move elsewhere later, needed for styling/testing
+const taskGroups = document.querySelector('.taskGroups');
+const newGroupBtn = document.createElement('button');
+const addIcon = new Image(35, 35);
+addIcon.src = plusIcon;
+newGroupBtn.appendChild(addIcon);
+newGroupBtn.classList.add('addNewList');
+newGroupBtn.setAttribute('aria-label','Add new task list');
+taskGroups.appendChild(newGroupBtn);
