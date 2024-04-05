@@ -2,17 +2,9 @@ import 'normalize.css';
 import './../css/base.css';
 import cogIcon from './../icons/cog-svgrepo-com.svg';
 import plusIcon from './../icons/plus-circle-1427-svgrepo-com.svg';
-
-const newListDialog = document.querySelector(".newList");
-const newTaskDialog = document.querySelector(".newTask");
-
-newListDialog.addEventListener("close", (event) => {
-    console.log(newListDialog.returnValue);
-});
-
-newTaskDialog.addEventListener("close", (event) => {
-    console.log(newTaskDialog.returnValue);
-});
+import './listDialog.js';
+import { newListDialog } from './listDialog.js';
+//import './taskDialog.js';
 
 // move elsewhere later, needed for styling/testing
 const optionsBtnsArr = Array.from(document.querySelectorAll('ul button+button'));
@@ -32,3 +24,7 @@ newGroupBtn.appendChild(addIcon);
 newGroupBtn.classList.add('addNewList');
 newGroupBtn.setAttribute('aria-label','Add new task list');
 taskGroups.appendChild(newGroupBtn);
+
+newGroupBtn.addEventListener("click", (event) => {
+    newListDialog.showModal();
+});
