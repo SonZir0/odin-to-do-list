@@ -59,9 +59,7 @@ main {
     .taskGroups {
         display: flex;
         flex-direction: column;
-        width: 30%;
-        min-width: 230px;
-        max-width: 400px;
+        width: clamp(320px, 30%, 450px);
         padding: 1.25rem 2rem;
         background-color: var(--panel-color);
         border-right: var(--panel-border);
@@ -109,6 +107,7 @@ main {
             margin-top: 12px;
             padding: 0.5rem 1.5rem;
             align-self: center;
+            background-color: var(--panel-color);
         }
 
         li:hover,

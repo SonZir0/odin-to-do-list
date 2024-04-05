@@ -35,25 +35,25 @@
 
     <dialog class="newList">
         <form method="dialog">
-            <input type="submit" aria-label="close" value="X" name="Xbutton" formnovalidate />
+            <button type="submit" aria-label="close" value="X" name="Xbutton" formnovalidate>X</button>
             <p>Edit Task List</p>
             <label for="newListName">Task List name: </label>
             <input type="text" name="newListName" id="newListName" required autofocus autocapitalize="on">
-            <button type="submit" value="submitList">Submit</button>
+            <button type="submit" value="submit">Submit</button>
         </form>
     </dialog>
 
     <dialog class="newTask">
         <form method="dialog">
-            <input type="submit" aria-label="close" value="X" name="Xbutton" formnovalidate />
+            <button type="submit" aria-label="close" value="X" name="Xbutton" formnovalidate>X</button>
             <p>Edit Task</p>
             <div>
                 <label for="newTaskName">Task name: </label>
                 <input type="text" name="newTaskName" id="newTaskName" required autofocus autocapitalize="on">
             </div>
             <div>
-                <label for="newTackDescr">Task Description: </label>
-                <textarea name="newTackDescr" id="newTackDescr" cols="30" rows="10"></textarea>
+                <label for="newTaskDescr">Task Description: </label>
+                <textarea name="newTaskDescr" id="newTaskDescr" cols="30" rows="10"></textarea>
             </div>
             <div>
                 <label for="dueDate">Due Date: </label>
@@ -73,7 +73,7 @@
 
                 </select>
             </div>
-            <button type="submit" value="submitTask">Submit</button>
+            <button type="submit" value="submit">Submit</button>
         </form>
     </dialog>
 </body>
