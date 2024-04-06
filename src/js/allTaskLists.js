@@ -7,6 +7,6 @@ export const userData = {
 
     addTaskList(name){
         this.userTaskLists.push(new TaskList(name, this.nextListId));
-        this.nextListID++;
+        return this.nextListID++;
     }
 }
