@@ -1,24 +1,31 @@
 import cogIcon from './../icons/cog-svgrepo-com.svg';
 import plusIcon from './../icons/plus-circle-1427-svgrepo-com.svg';
-import { addListDialogHandler, newListDialog } from "./listDialog";
+import { addListFormHandler, newListForm } from "./listDialog";
+import { displayTaskList } from './taskPanelDOM';
 
-const taskGroups = document.querySelector('.taskGroups');
-const userTaskLists = document.querySelector('ul');
+const taskGroupsSection = document.querySelector('.taskGroups');
+const listOfTaskLists = document.querySelector('ul');
+const showAllBtn = document.querySelector('.showAll');
 
-// everything from other files that needed to function
-export function pageInit() {
-    initAddListrightBtn();
-    addListDialogHandler();
+export function listsPanelInit() {
+    initAddListBtn();
+    addListFormHandler();
 }
 
 export function addListTab(name, currentListID) {
-    const newTaskList = document.createElement('li');
-    newTaskList.dataset.ID = currentListID;
+    const newTaskTab = document.createElement('li');
     const leftBtn = document.createElement('button');
+
+    newTaskTab.dataset.id = currentListID;
     leftBtn.textContent = name;
-    newTaskList.appendChild(leftBtn);
-    addRenameRemoveMenu(newTaskList);
-    userTaskLists.appendChild(newTaskList);
+    leftBtn.addEventListener("click", displayTaskList);
+
+    newTaskTab.appendChild(leftBtn);
+    addRenameRemoveMenu(newTaskTab);
+    listOfTaskLists.appendChild(newTaskTab);
+    // later add listener to disable show all if the last list is removed
+    if (showAllBtn.disabled)
+        showAllBtn.disabled = false;
 }
 
 function addRenameRemoveMenu(liNode) {
@@ -28,18 +35,19 @@ function addRenameRemoveMenu(liNode) {
     rightBtn.setAttribute('aria-label', 'Edit');
     rightBtn.appendChild(optionsIcon);
     liNode.appendChild(rightBtn);
+    //later add 2 more buttons in a hidden div to rename and edit List
 }
 
-function initAddListrightBtn() {
-    const addListrightBtn = document.createElement('button');
+function initAddListBtn() {
+    const addListBtn = document.createElement('button');
     const plusImg = new Image(35, 35);
     plusImg.src = plusIcon;
-    addListrightBtn.appendChild(plusImg);
-    addListrightBtn.classList.add('addNewList');
-    addListrightBtn.setAttribute('aria-label', 'Add new task list');
-    taskGroups.appendChild(addListrightBtn);
+    addListBtn.appendChild(plusImg);
+    addListBtn.classList.add('addNewList');
+    addListBtn.setAttribute('aria-label', 'Add new task list');
+    taskGroupsSection.appendChild(addListBtn);
 
-    addListrightBtn.addEventListener("click", (event) => {
-        newListDialog.showModal();
+    addListBtn.addEventListener("click", (event) => {
+        newListForm.showModal();
     });
 }
