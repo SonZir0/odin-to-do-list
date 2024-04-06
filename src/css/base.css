@@ -83,10 +83,13 @@ main {
             margin-top: 6px;
             border-radius: 8px;
 
-            button:first-of-type {
+            >button:first-of-type {
                 flex: 1;
                 border-radius: 8px 0px 0px 8px;
                 text-align: start;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             button+button {
@@ -124,20 +127,14 @@ main {
             background-color: var(--button-color);
         }
 
-        button:hover,
+        button:enabled:hover,
         button:focus-visible {
             z-index: 1;
             background-color: var(--button-hover-color);
             outline: 2px solid black;
         }
 
-        button:focus-visible {
-            z-index: 1;
-            border-color: black;
-            outline: 2px solid black;
-        }
-
-        button:active {
+        button:enabled:active {
             background-color: var(--button-active-color);
         }
     }
