@@ -1,6 +1,6 @@
 import cogIcon from './../icons/cog-svgrepo-com.svg';
 import plusIcon from './../icons/plus-circle-1427-svgrepo-com.svg';
-import { addListFormHandler, newListForm } from "./listDialog";
+import { addListFormHandler, displayNewListForm } from "./listDialog";
 import { displayTaskList } from './taskPanelDOM';
 
 const taskGroupsSection = document.querySelector('.taskGroups');
@@ -12,20 +12,24 @@ export function listsPanelInit() {
     addListFormHandler();
 }
 
-export function addListTab(name, currentListID) {
-    const newTaskTab = document.createElement('li');
+export function addListTab(currentListID, name) {
+    const newTaskListTab = document.createElement('li');
     const leftBtn = document.createElement('button');
 
-    newTaskTab.dataset.id = currentListID;
+    newTaskListTab.dataset.id = currentListID;
     leftBtn.textContent = name;
-    leftBtn.addEventListener("click", displayTaskList);
+    leftBtn.addEventListener("click", () => { loadClickedList(leftBtn.parentElement); });
 
-    newTaskTab.appendChild(leftBtn);
-    addRenameRemoveMenu(newTaskTab);
-    listOfTaskLists.appendChild(newTaskTab);
+    newTaskListTab.appendChild(leftBtn);
+    addRenameRemoveMenu(newTaskListTab);
+    listOfTaskLists.appendChild(newTaskListTab);
     // later add listener to disable show all if the last list is removed
-    if (showAllBtn.disabled)
-        showAllBtn.disabled = false;
+    showAllBtn.disabled = false;
+}
+
+export function editListTab(currentListID, newName) {
+    const nodeToEdit = document.querySelector(`li[data-id="${currentListID}"] button:first-of-type`);
+    nodeToEdit.textContent = newName;
 }
 
 function addRenameRemoveMenu(liNode) {
@@ -34,8 +38,27 @@ function addRenameRemoveMenu(liNode) {
     optionsIcon.src = cogIcon;
     rightBtn.setAttribute('aria-label', 'Edit');
     rightBtn.appendChild(optionsIcon);
+
+    rightBtn.addEventListener('click', () => {
+        displayNewListForm(+rightBtn.parentElement.dataset.id);
+    });
     liNode.appendChild(rightBtn);
-    //later add 2 more buttons in a hidden div to rename and edit List
+    //later add a button to remove list
+}
+
+function loadClickedList(clickedListNode) {
+    if (clickedListNode.classList[0] !== "chosen") {
+        setChosenClass(clickedListNode);
+        displayTaskList();
+    }
+}
+
+function setChosenClass(clickedList) {
+    const oldChosenList = document.querySelector('.chosen');
+    if (oldChosenList)
+        oldChosenList.classList.toggle('chosen');
+
+    clickedList.classList.toggle('chosen');
 }
 
 function initAddListBtn() {
@@ -47,5 +70,5 @@ function initAddListBtn() {
     addListBtn.setAttribute('aria-label', 'Add new task list');
     taskGroupsSection.appendChild(addListBtn);
 
-    addListBtn.addEventListener("click", () => newListForm.showModal());
+    addListBtn.addEventListener("click", () => displayNewListForm());
 }

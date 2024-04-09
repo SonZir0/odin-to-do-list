@@ -25,8 +25,11 @@
         <form method="dialog">
             <button type="submit" aria-label="close" value="X" name="Xbutton" formnovalidate>X</button>
             <p>Edit Task List</p>
-            <label for="newListName">Task List name: </label>
-            <input type="text" name="newListName" id="newListName" required autofocus autocapitalize="on">
+            <div>
+                <label for="newListName">Task List name: </label>
+                <input type="text" name="newListName" id="newListName" required autofocus autocapitalize="on">
+            </div>
+            <input type="hidden" name="idForEdit">
             <button type="submit" value="submit">Submit</button>
         </form>
     </dialog>

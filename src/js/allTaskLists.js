@@ -11,6 +11,14 @@ export function addTaskList(name){
     return userData.nextListID++;
 }
 
+export function getTaskListData(listID) {
+    return userData.userTaskLists[listID-1].name;
+}
+
+export function editTaskListData(listID, newName) {
+    userData.userTaskLists[listID-1].name = newName;
+}
+
 export function findTaskList(ID) {
     const found = userData.userTaskLists.find((taskList) => taskList.listID === +ID);
     return found;

@@ -1,8 +1,9 @@
-import { addTaskList } from "./allTaskLists";
-import { addListTab } from "./listsPanelDOM";
+import { addTaskList, editTaskListData, getTaskListData } from "./allTaskLists";
+import { addListTab, editListTab } from "./listsPanelDOM";
 
-export const newListForm = document.querySelector(".newList");
-const input = document.querySelector('#newListName');
+const newListForm = document.querySelector(".newList");
+const nameInput = document.querySelector('#newListName');
+const hiddenID = document.querySelector('input[type="hidden"]');
 
 export function addListFormHandler() {
     newListForm.addEventListener("close", (event) => {
@@ -12,16 +13,37 @@ export function addListFormHandler() {
     });
 }
 
+// for editListBtn - pass ID parameter of a parent li node
+export function displayNewListForm(idForEdit = false) {
+    if (idForEdit) {
+        hiddenID.value = idForEdit;
+        fillInData(getTaskListData(idForEdit));
+    }
+    newListForm.showModal();
+}
+
 function createOrEditList() {
-    createList();  // add edit later
+    if (hiddenID.value)
+        editList();
+    else createList();
 }
 
 function createList() {
-    const currentListID = addTaskList(input.value);
-    addListTab(input.value, currentListID);
+    const currentListID = addTaskList(nameInput.value);
+    addListTab(currentListID, nameInput.value);
 };
 
+function fillInData(name) {
+    nameInput.value = name;
+}
+
+function editList() {
+    editListTab(hiddenID.value, nameInput.value);
+    editTaskListData(hiddenID.value, nameInput.value);
+}
+
 function clearListInput() {
-    input.value = "";
+    nameInput.value = "";
     newListForm.returnValue = "";
+    hiddenID.value = null;
 };
