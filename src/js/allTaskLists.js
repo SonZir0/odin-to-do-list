@@ -1,12 +1,17 @@
 import TaskList from './taskList.js'
 
-export const userData = {
+const userData = {
     nextListID: 1,
     nextTaskID: 1,
-    userTaskLists: [],
+    userTaskLists: []
+}
 
-    addTaskList(name){
-        this.userTaskLists.push(new TaskList(name, this.nextListId));
-        return this.nextListID++;
-    }
+export function addTaskList(name){
+    userData.userTaskLists.push(new TaskList(name, userData.nextListID));
+    return userData.nextListID++;
+}
+
+export function findTaskList(ID) {
+    const found = userData.userTaskLists.find((taskList) => taskList.listID === +ID);
+    return found;
 }

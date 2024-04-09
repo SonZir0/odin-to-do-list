@@ -1,7 +1,7 @@
 import Task from './task.js'
 
 export default class taskList {
-    tasksArr = [];
+    taskArr = [];
     
     constructor(name, ID) {
         this.name = name;

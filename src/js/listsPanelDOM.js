@@ -47,7 +47,5 @@ function initAddListBtn() {
     addListBtn.setAttribute('aria-label', 'Add new task list');
     taskGroupsSection.appendChild(addListBtn);
 
-    addListBtn.addEventListener("click", (event) => {
-        newListForm.showModal();
-    });
+    addListBtn.addEventListener("click", () => newListForm.showModal());
 }
