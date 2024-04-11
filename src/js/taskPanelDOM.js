@@ -1,15 +1,51 @@
 import plusIcon from './../icons/plus-circle-1427-svgrepo-com.svg';
+import { displayTaskForm } from './taskDialog';
+import { getTaskArrFromList } from './allTaskLists';
 
 const tasksPanel = document.querySelector('.tasks');
-const newTaskCardBtn = document.createElement('div');
-initNewTaskCardBtn(); /* to not recreate the "add new card" panel on each list reload
-keep it ready to append */
 
-export function displayTaskList (event) {
+export { displayTasksFromList, addCardToPanel}
+
+function displayTasksFromList(listID) {
     clearTaskPanel();
-    tasksPanel.appendChild(newTaskCardBtn);
-    console.log(event.target.parentElement.dataset.id);
+    loadTasksFromList(listID);
+    //add new task btn as the first card    
+    tasksPanel.firstElementChild.insertBefore(createNewTaskCardBtn(),
+        (tasksPanel.firstElementChild.firstElementChild));
+    //const tasksFromList = findTaskList(clickedListNode.dataset.id).taskArr;
+    //add a loop to construct and append nodes later
+}
 
+function loadTasksFromList(listID) {
+    const container = document.createElement('div');
+    container.classList.add(listID);
+    tasksPanel.appendChild(container);
+    
+    const tasksArr = getTaskArrFromList(listID);
+    for (const task of tasksArr) {
+        addCardToPanel(listID, task.taskID, task.getEditableTaskData())
+    }
+    container.appendChild(document.createElement('p'));
+}
+
+function addCardToPanel(listID, currentTaskID, taskFormInputArr) {
+    const listContainer = document.querySelector(`.tasks .${CSS.escape(listID)}`);
+    listContainer.appendChild(createTaskCard(currentTaskID, ...taskFormInputArr));
+}
+
+function createTaskCard(taskID, name, description, dueDate, priority) {
+    const taskCardDiv = document.createElement('div');
+    taskCardDiv.classList.add(`taskCard`, `${priority}`, `${taskID}`);
+    const taskName = document.createElement('p');
+    taskName.textContent = name;
+    const descr = document.createElement('p');
+    descr.textContent = description;
+    descr.classList.add('descr');
+    const date = document.createElement('p');
+    date.textContent = dueDate;
+    date.classList.add('date');
+    taskCardDiv.append(taskName, descr, date);
+    return taskCardDiv;
 }
 
 function clearTaskPanel() {
@@ -19,12 +55,15 @@ function clearTaskPanel() {
     }
 }
 
-function initNewTaskCardBtn() {
+function createNewTaskCardBtn() {
+    const newTaskCardBtn = document.createElement('div');
     newTaskCardBtn.classList.add('addNewTask');
     newTaskCardBtn.setAttribute('aria-label', 'Add new task to your list');
     newTaskCardBtn.tabIndex = 0;
+    newTaskCardBtn.addEventListener('click', () => displayTaskForm());
 
     const plusImg = new Image(50, 50);
     plusImg.src = plusIcon;
     newTaskCardBtn.appendChild(plusImg);
+    return newTaskCardBtn;
 }

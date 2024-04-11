@@ -1,7 +1,7 @@
 import cogIcon from './../icons/cog-svgrepo-com.svg';
 import plusIcon from './../icons/plus-circle-1427-svgrepo-com.svg';
 import { displayListForm } from "./listDialog";
-import { displayTaskList } from './taskPanelDOM';
+import { displayTasksFromList } from './taskPanelDOM';
 
 const taskGroupsSection = document.querySelector('.taskGroups');
 const listOfTaskLists = document.querySelector('ul');
@@ -46,7 +46,7 @@ function addRenameRemoveMenu(liNode) {
 function loadClickedList(clickedListNode) {
     if (clickedListNode.classList[0] !== "chosen") {
         setChosenClass(clickedListNode);
-        displayTaskList();
+        displayTasksFromList(clickedListNode.dataset.id);
     }
 }
 
