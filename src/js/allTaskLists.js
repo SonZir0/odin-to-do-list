@@ -6,20 +6,28 @@ const userData = {
     userTaskLists: []
 }
 
-export function addTaskList(name){
-    userData.userTaskLists.push(new TaskList(name, userData.nextListID));
+export { addTaskList, getListEditableData, editTaskListData, findTaskList, addTaskToTheList}
+
+function addTaskList(listFormInputArr){
+    userData.userTaskLists.push(new TaskList(...listFormInputArr, userData.nextListID));
     return userData.nextListID++;
 }
 
-export function getTaskListData(listID) {
-    return userData.userTaskLists[listID-1].name;
+function getListEditableData(listID) {
+    const listData = userData.userTaskLists[listID-1].getEditableData();
+    return listData;
 }
 
-export function editTaskListData(listID, newName) {
-    userData.userTaskLists[listID-1].name = newName;
+function editTaskListData(listID, listFormInputArr) {
+    userData.userTaskLists[listID-1].editEditableFields(listFormInputArr);
 }
 
-export function findTaskList(ID) {
+function findTaskList(ID) {
     const found = userData.userTaskLists.find((taskList) => taskList.listID === +ID);
     return found;
+}
+
+function addTaskToTheList(taskFormInputArr) {
+    tastTemp.addNewTask(...taskFormInputArr, userData.nextTaskID);
+    return userData.nextTaskID++;
 }

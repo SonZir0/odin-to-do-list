@@ -27,9 +27,9 @@
             <p>Edit Task List</p>
             <div>
                 <label for="newListName">Task List name: </label>
-                <input type="text" name="newListName" id="newListName" required autofocus autocapitalize="on">
+                <input type="text" name="newListName" id="newListName" data-default="" required autofocus autocapitalize="on">
             </div>
-            <input type="hidden" name="idForEdit">
+            <input type="hidden" name="listIdForEdit" id="listIdForEdit">
             <button type="submit" value="submit">Submit</button>
         </form>
     </dialog>
@@ -40,24 +40,25 @@
             <p>Edit Task</p>
             <div>
                 <label for="newTaskName">Task name: </label>
-                <input type="text" name="newTaskName" id="newTaskName" required autofocus autocapitalize="on">
+                <input type="text" name="newTaskName" id="newTaskName" data-default="" required autofocus autocapitalize="on">
             </div>
             <div>
                 <label for="newTaskDescr">Task Description: </label>
-                <textarea name="newTaskDescr" id="newTaskDescr" cols="30" rows="10"></textarea>
+                <textarea name="newTaskDescr" id="newTaskDescr" data-default="" cols="30" rows="10"></textarea>
             </div>
             <div>
                 <label for="dueDate">Due Date: </label>
-                <input type="datetime-local" name="dueDate" id="dueDate" required>
+                <input type="datetime-local" name="dueDate" id="dueDate" data-default="" required>
             </div>
             <div>
                 <label for="priority">Priority: </label>
-                <select name="priority" id="priority" required>
+                <select name="priority" id="priority" data-default="low" required>
                     <option value="low" selected>Low</option>
                     <option value="medium">Medium</option>
                     <option value="high">High</option>
                 </select>
             </div>
+            <input type="hidden" name="taskIdForEdit" id="taskIdForEdit">
             <button type="submit" value="submit">Submit</button>
         </form>
     </dialog>

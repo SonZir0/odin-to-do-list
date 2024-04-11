@@ -1,5 +1,7 @@
 import 'normalize.css';
 import './../css/base.css';
-import { listsPanelInit } from './listsPanelDOM.js'
+import { initAddListBtn } from './listsPanelDOM.js';
+import { addListFormHandler } from './listDialog.js';
 
-listsPanelInit();
+initAddListBtn();
+addListFormHandler();

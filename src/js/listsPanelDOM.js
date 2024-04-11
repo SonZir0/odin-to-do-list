@@ -1,18 +1,15 @@
 import cogIcon from './../icons/cog-svgrepo-com.svg';
 import plusIcon from './../icons/plus-circle-1427-svgrepo-com.svg';
-import { addListFormHandler, displayNewListForm } from "./listDialog";
+import { displayListForm } from "./listDialog";
 import { displayTaskList } from './taskPanelDOM';
 
 const taskGroupsSection = document.querySelector('.taskGroups');
 const listOfTaskLists = document.querySelector('ul');
 const showAllBtn = document.querySelector('.showAll');
 
-export function listsPanelInit() {
-    initAddListBtn();
-    addListFormHandler();
-}
+export { addListTab, editListTab, initAddListBtn}
 
-export function addListTab(currentListID, name) {
+function addListTab(currentListID, name) {
     const newTaskListTab = document.createElement('li');
     const leftBtn = document.createElement('button');
 
@@ -27,7 +24,7 @@ export function addListTab(currentListID, name) {
     showAllBtn.disabled = false;
 }
 
-export function editListTab(currentListID, newName) {
+function editListTab(currentListID, newName) {
     const nodeToEdit = document.querySelector(`li[data-id="${currentListID}"] button:first-of-type`);
     nodeToEdit.textContent = newName;
 }
@@ -40,7 +37,7 @@ function addRenameRemoveMenu(liNode) {
     rightBtn.appendChild(optionsIcon);
 
     rightBtn.addEventListener('click', () => {
-        displayNewListForm(+rightBtn.parentElement.dataset.id);
+        displayListForm(+rightBtn.parentElement.dataset.id);
     });
     liNode.appendChild(rightBtn);
     //later add a button to remove list
@@ -70,5 +67,5 @@ function initAddListBtn() {
     addListBtn.setAttribute('aria-label', 'Add new task list');
     taskGroupsSection.appendChild(addListBtn);
 
-    addListBtn.addEventListener("click", () => displayNewListForm());
+    addListBtn.addEventListener("click", () => displayListForm());
 }

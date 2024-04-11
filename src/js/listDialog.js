@@ -1,11 +1,13 @@
-import { addTaskList, editTaskListData, getTaskListData } from "./allTaskLists";
+import { addTaskList, editTaskListData, getListEditableData } from "./allTaskLists";
 import { addListTab, editListTab } from "./listsPanelDOM";
 
 const newListForm = document.querySelector(".newList");
-const nameInput = document.querySelector('#newListName');
-const hiddenID = document.querySelector('input[type="hidden"]');
+const inputArr = Array.from(document.querySelectorAll('.newList div label+*'));
+const hiddenListID = document.querySelector('#listIdForEdit');
 
-export function addListFormHandler() {
+export { addListFormHandler, displayListForm }
+
+function addListFormHandler() {
     newListForm.addEventListener("close", (event) => {
         if (newListForm.returnValue === "submit")
             createOrEditList();
@@ -14,36 +16,42 @@ export function addListFormHandler() {
 }
 
 // for editListBtn - pass ID parameter of a parent li node
-export function displayNewListForm(idForEdit = false) {
+function displayListForm(idForEdit = false) {
     if (idForEdit) {
-        hiddenID.value = idForEdit;
-        fillInData(getTaskListData(idForEdit));
+        hiddenListID.value = idForEdit;
+        loadListData(idForEdit);
     }
     newListForm.showModal();
 }
 
 function createOrEditList() {
-    if (hiddenID.value)
-        editList();
-    else createList();
+    const inputValuesArr = inputArr.map((inputField) => inputField.value);
+    if (hiddenListID.value)
+        editList(inputValuesArr);
+    else createList(inputValuesArr);
 }
 
-function createList() {
-    const currentListID = addTaskList(nameInput.value);
-    addListTab(currentListID, nameInput.value);
+function createList(inputValuesArr) {
+    const currentListID = addTaskList(inputValuesArr);
+    addListTab(currentListID, ...inputValuesArr);
 };
 
-function fillInData(name) {
-    nameInput.value = name;
+function loadListData(listID) {
+    const taskListDataArr = getListEditableData(listID);
+    inputArr.forEach(function (inputField, i) {
+        inputField.value = taskListDataArr[i];
+    });
 }
 
-function editList() {
-    editListTab(hiddenID.value, nameInput.value);
-    editTaskListData(hiddenID.value, nameInput.value);
+function editList(inputValuesArr) {
+    editListTab(hiddenListID.value, ...inputValuesArr);
+    editTaskListData(hiddenListID.value, inputValuesArr);
 }
 
 function clearListInput() {
-    nameInput.value = "";
+    for (const inputField of inputArr) {
+        inputField.value = inputField.dataset.default
+    }
     newListForm.returnValue = "";
-    hiddenID.value = null;
+    hiddenListID.value = null;
 };
