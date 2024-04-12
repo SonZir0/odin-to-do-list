@@ -1,10 +1,10 @@
 :root {
-    --medium-priority-card-color: rgb(235, 236, 128);
-    --medium-priority-hover-color: rgb(242, 245, 107);
-    --medium-priority-active-color: rgb(202, 204, 77);
-    --high-priority-card-color: rgb(255, 178, 178);
-    --high-priority-hover-color: rgb(245, 142, 142);
-    --high-priority-active-color: rgb(211, 112, 112);
+    --medium-priority-card-color: rgb(253, 228, 118);
+    --medium-priority-hover-color: rgb(255, 219, 59);
+    --medium-priority-active-color: rgb(223, 188, 35);
+    --high-priority-card-color: rgb(255, 154, 123);
+    --high-priority-hover-color: rgb(255, 116, 74);
+    --high-priority-active-color: rgb(219, 86, 46);
 }
 
 .tasks {
@@ -20,22 +20,28 @@
     .addNewTask,
     .taskCard {
         padding: 1rem;
+        border: 1px solid var(--border-color);
         border-radius: 12px;
         background-color: var(--button-color);
     }
 
-    .addNewTask:hover, 
-    .addNewTask:focus-visible,
-    .taskCard:hover,
-    .taskCard:focus-visible {
-        background-color: var(--button-hover-color);
-        outline: 2px solid black;
-    }
 
-    .addNewTask:active,
-    .taskCard:active {
-        background-color: var(--button-active-color);
-    }    
+    .addNewTask,
+    .taskCard {
+        &:hover,
+        &:focus-visible {
+            background-color: var(--button-hover-color);
+            outline: 4px solid black;
+        }
+
+        &:hover {
+            outline-width: 2px;
+        }
+
+        &:active {
+            background-color: var(--button-active-color);
+        }
+    }
 
     .addNewTask {
         height: 231px;
@@ -91,7 +97,7 @@
 
     .taskCard.high {
         background-color: var(--high-priority-card-color);
-        
+
         &:hover,
         &:focus-visible {
             background-color: var(--high-priority-hover-color);
