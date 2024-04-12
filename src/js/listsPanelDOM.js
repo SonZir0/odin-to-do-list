@@ -60,7 +60,7 @@ function setChosenClass(clickedList) {
 
 function initAddListBtn() {
     const addListBtn = document.createElement('button');
-    const plusImg = new Image(35, 35);
+    const plusImg = new Image(50, 50);
     plusImg.src = plusIcon;
     addListBtn.appendChild(plusImg);
     addListBtn.classList.add('addNewList');

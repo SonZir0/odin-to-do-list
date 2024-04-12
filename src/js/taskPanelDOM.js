@@ -1,3 +1,4 @@
+import './../css/rightPanel.css';
 import plusIcon from './../icons/plus-circle-1427-svgrepo-com.svg';
 import { displayTaskForm } from './taskDialog';
 import { getTaskArrFromList } from './allTaskLists';
@@ -24,7 +25,6 @@ function loadTasksFromList(listID) {
     for (const task of tasksArr) {
         addCardToPanel(listID, task.taskID, task.getEditableTaskData())
     }
-    container.appendChild(document.createElement('p'));
 }
 
 function addCardToPanel(listID, currentTaskID, taskFormInputArr) {
@@ -36,15 +36,27 @@ function createTaskCard(taskID, name, description, dueDate, priority) {
     const taskCardDiv = document.createElement('div');
     taskCardDiv.classList.add(`taskCard`, `${priority}`);
     taskCardDiv.dataset.taskId = taskID;
+    taskCardDiv.tabIndex = 0;
+
     const taskName = document.createElement('p');
     taskName.textContent = name;
+    taskName.classList.add('name');
+
+    const divider1 = document.createElement('div');
+    divider1.classList.add('divider');
+
     const descr = document.createElement('p');
     descr.textContent = description;
     descr.classList.add('descr');
+
+    const divider2 = document.createElement('div');
+    divider2.classList.add('divider');
+
     const date = document.createElement('p');
     date.textContent = dueDate;
     date.classList.add('date');
-    taskCardDiv.append(taskName, descr, date);
+
+    taskCardDiv.append(taskName, divider1, descr, divider2, date);
     return taskCardDiv;
 }
 
@@ -61,8 +73,12 @@ function createNewTaskCardBtn() {
     newTaskCardBtn.setAttribute('aria-label', 'Add new task to your list');
     newTaskCardBtn.tabIndex = 0;
     newTaskCardBtn.addEventListener('click', () => displayTaskForm());
+    newTaskCardBtn.addEventListener('keyup', (event) => {
+        if (event.key === "Enter") 
+            newTaskCardBtn.dispatchEvent(new Event('click'));
+    });
 
-    const plusImg = new Image(50, 50);
+    const plusImg = new Image(100, 100);
     plusImg.src = plusIcon;
     newTaskCardBtn.appendChild(plusImg);
     return newTaskCardBtn;
