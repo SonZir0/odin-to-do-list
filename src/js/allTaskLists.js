@@ -24,7 +24,7 @@ function editTaskListData(listID, listFormInputArr) {
 
 function getTaskArrFromList(ID) {
     const foundList = userData.userTaskLists.find((taskList) => taskList.listID === +ID);
-    return foundList.taskArr;
+    return foundList.getTaskArr();
 }
 
 function addTaskToTheList(listID, taskFormInputArr) {

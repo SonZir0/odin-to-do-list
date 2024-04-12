@@ -28,6 +28,10 @@ export default class TaskList {
         }
     }
 
+    getTaskArr() {
+        return this.taskArr;
+    }
+
     addNewTask(ID, taskFormInputArr) {
         this.taskArr.push(new Task(ID, ...taskFormInputArr));
     }
