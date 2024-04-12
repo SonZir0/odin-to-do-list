@@ -12,13 +12,12 @@ function displayTasksFromList(listID) {
     //add new task btn as the first card    
     tasksPanel.firstElementChild.insertBefore(createNewTaskCardBtn(),
         (tasksPanel.firstElementChild.firstElementChild));
-    //const tasksFromList = findTaskList(clickedListNode.dataset.id).taskArr;
-    //add a loop to construct and append nodes later
 }
 
 function loadTasksFromList(listID) {
     const container = document.createElement('div');
-    container.classList.add(listID);
+    container.classList.add('taskList');
+    container.dataset.listId = listID;
     tasksPanel.appendChild(container);
     
     const tasksArr = getTaskArrFromList(listID);
@@ -29,13 +28,14 @@ function loadTasksFromList(listID) {
 }
 
 function addCardToPanel(listID, currentTaskID, taskFormInputArr) {
-    const listContainer = document.querySelector(`.tasks .${CSS.escape(listID)}`);
+    const listContainer = document.querySelector(`.tasks [data-list-id="${CSS.escape(listID)}"]`);
     listContainer.appendChild(createTaskCard(currentTaskID, ...taskFormInputArr));
 }
 
 function createTaskCard(taskID, name, description, dueDate, priority) {
     const taskCardDiv = document.createElement('div');
-    taskCardDiv.classList.add(`taskCard`, `${priority}`, `${taskID}`);
+    taskCardDiv.classList.add(`taskCard`, `${priority}`);
+    taskCardDiv.dataset.taskId = taskID;
     const taskName = document.createElement('p');
     taskName.textContent = name;
     const descr = document.createElement('p');

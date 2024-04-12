@@ -13,7 +13,7 @@ function addListTab(currentListID, name) {
     const newTaskListTab = document.createElement('li');
     const leftBtn = document.createElement('button');
 
-    newTaskListTab.dataset.id = currentListID;
+    newTaskListTab.dataset.listId = currentListID;
     leftBtn.textContent = name;
     leftBtn.addEventListener("click", () => { loadClickedList(leftBtn.parentElement); });
 
@@ -25,7 +25,7 @@ function addListTab(currentListID, name) {
 }
 
 function editListTab(currentListID, newName) {
-    const nodeToEdit = document.querySelector(`li[data-id="${currentListID}"] button:first-of-type`);
+    const nodeToEdit = document.querySelector(`li[data-list-id="${currentListID}"] button:first-of-type`);
     nodeToEdit.textContent = newName;
 }
 
@@ -37,7 +37,7 @@ function addRenameRemoveMenu(liNode) {
     rightBtn.appendChild(optionsIcon);
 
     rightBtn.addEventListener('click', () => {
-        displayListForm(+rightBtn.parentElement.dataset.id);
+        displayListForm(+rightBtn.parentElement.dataset.listId);
     });
     liNode.appendChild(rightBtn);
     //later add a button to remove list
@@ -46,7 +46,7 @@ function addRenameRemoveMenu(liNode) {
 function loadClickedList(clickedListNode) {
     if (clickedListNode.classList[0] !== "chosen") {
         setChosenClass(clickedListNode);
-        displayTasksFromList(clickedListNode.dataset.id);
+        displayTasksFromList(clickedListNode.dataset.listId);
     }
 }
 

@@ -26,7 +26,7 @@ function displayTaskForm(idForEdit = false) {
 }
 
 function createOrEditTask() {
-    const listID = (document.querySelector('.tasks > div')).classList[0];
+    const listID = (document.querySelector('.tasks > div')).dataset.listId;
     createTask(+listID);  // add edit later
 }
 
