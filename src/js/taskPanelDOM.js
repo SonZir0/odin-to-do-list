@@ -3,24 +3,33 @@ import plusIcon from './../icons/plus-circle-1427-svgrepo-com.svg';
 import { displayTaskForm } from './taskDialog';
 import { getTaskArrFromList } from './allTaskLists';
 
-const tasksPanel = document.querySelector('.tasks');
+const taskDisplay = document.querySelector('.taskDisplay');
 
-export { displayTasksFromList, addCardToPanel}
+export { displayTasksFromList, addCardToPanel }
 
 function displayTasksFromList(listID) {
     clearTaskPanel();
-    loadTasksFromList(listID);
-    //add new task btn as the first card    
-    tasksPanel.firstElementChild.insertBefore(createNewTaskCardBtn(),
-        (tasksPanel.firstElementChild.firstElementChild));
+    loadList(listID);
+    //add new task btn as the first card in allTasks div
+    const allTasksDivInList = document.querySelector('.taskList > div');
+    allTasksDivInList.prepend(createNewTaskCardBtn());
 }
 
-function loadTasksFromList(listID) {
-    const container = document.createElement('div');
-    container.classList.add('taskList');
-    container.dataset.listId = listID;
-    tasksPanel.appendChild(container);
-    
+function loadList(listID) {
+    const listContainer = document.createElement('div');
+    listContainer.classList.add('taskList');
+    listContainer.dataset.listId = listID;
+
+    const listNameBtnElem = document.querySelector(`li[data-list-id="${listID}"] button:first-of-type`);
+    const listName = document.createElement('h3');
+    listName.textContent = listNameBtnElem.textContent + ":";
+
+    const tasksContainer = document.createElement('div');
+    tasksContainer.classList.add('allTasks');
+
+    listContainer.append(listName, tasksContainer);
+    taskDisplay.appendChild(listContainer);
+
     const tasksArr = getTaskArrFromList(listID);
     for (const task of tasksArr) {
         addCardToPanel(listID, task.taskID, task.getEditableTaskData())
@@ -28,8 +37,8 @@ function loadTasksFromList(listID) {
 }
 
 function addCardToPanel(listID, currentTaskID, taskFormInputArr) {
-    const listContainer = document.querySelector(`.tasks [data-list-id="${CSS.escape(listID)}"]`);
-    listContainer.appendChild(createTaskCard(currentTaskID, ...taskFormInputArr));
+    const tasksContainer = document.querySelector(`.taskDisplay [data-list-id="${CSS.escape(listID)}"] > div`);
+    tasksContainer.appendChild(createTaskCard(currentTaskID, ...taskFormInputArr));
 }
 
 function createTaskCard(taskID, name, description, dueDate, priority) {
@@ -61,7 +70,7 @@ function createTaskCard(taskID, name, description, dueDate, priority) {
 }
 
 function clearTaskPanel() {
-    const allTaskCards = Array.from(tasksPanel.children);
+    const allTaskCards = Array.from(taskDisplay.children);
     for (const child of allTaskCards) {
         child.remove();
     }
@@ -74,7 +83,7 @@ function createNewTaskCardBtn() {
     newTaskCardBtn.tabIndex = 0;
     newTaskCardBtn.addEventListener('click', () => displayTaskForm());
     newTaskCardBtn.addEventListener('keyup', (event) => {
-        if (event.key === "Enter") 
+        if (event.key === "Enter")
             newTaskCardBtn.dispatchEvent(new Event('click'));
     });
 

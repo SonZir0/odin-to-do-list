@@ -7,11 +7,20 @@
     --high-priority-active-color: rgb(219, 86, 46);
 }
 
-.tasks {
+.taskDisplay {
+    flex: 1;
+    background-color: var(--tasks-container-color);
     font-size: 1.5rem;
     padding: 1.5rem;
+    overflow-y: auto;
 
-    .taskList {
+    h3 {
+        font-size: 2rem;
+        margin: 0px;
+    }
+
+    .allTasks {
+        margin-top: 1.5rem;
         display: grid;
         grid-template-columns: repeat(auto-fit, 320px);
         gap: 1.5rem;
@@ -25,17 +34,16 @@
         background-color: var(--button-color);
     }
 
-
     .addNewTask,
     .taskCard {
         &:hover,
         &:focus-visible {
             background-color: var(--button-hover-color);
-            outline: 4px solid black;
+            outline: 2px solid black;
         }
 
-        &:hover {
-            outline-width: 2px;
+        &:focus-visible {
+            outline-width: 4px;
         }
 
         &:active {
@@ -74,12 +82,6 @@
             padding: 0px;
             border: none;
         }
-
-        .divider {
-            height: 1px;
-            margin: 0.5rem 0px;
-            border-bottom: 1px solid var(--border-color);
-        }
     }
 
     .taskCard.medium {
@@ -106,5 +108,11 @@
         &:active {
             background-color: var(--high-priority-active-color);
         }
+    }
+
+    .divider {
+        height: 1px;
+        margin: 0.5rem 0px;
+        border-bottom: 1px solid var(--border-color);
     }
 }

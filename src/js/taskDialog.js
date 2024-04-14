@@ -8,7 +8,7 @@ const hiddenTaskID = document.querySelector('#taskIdForEdit');
 export { addTaskFormHandler, displayTaskForm}
 
 function addTaskFormHandler() {
-    newTaskForm.addEventListener("close", (event) => {
+    newTaskForm.addEventListener("close", () => {
         if (newTaskForm.returnValue === "submit")
             createOrEditTask();
         clearTaskInput();
@@ -26,7 +26,7 @@ function displayTaskForm(idForEdit = false) {
 }
 
 function createOrEditTask() {
-    const listID = (document.querySelector('.tasks > div')).dataset.listId;
+    const listID = (document.querySelector('.taskDisplay .taskList')).dataset.listId;
     createTask(+listID);  // add edit later
 }
 
