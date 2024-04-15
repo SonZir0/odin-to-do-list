@@ -64,6 +64,7 @@
         }
 
         .name {
+            text-align: start;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -80,6 +81,7 @@
 
         .date {
             padding: 0px;
+            text-align: end;
             border: none;
         }
     }
