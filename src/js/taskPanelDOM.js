@@ -5,14 +5,14 @@ import { getTaskArrFromList } from './allTaskLists';
 
 const taskDisplay = document.querySelector('.taskDisplay');
 
-export { displayTasksFromList, addCardToPanel }
+export { displayTasksFromList, addCardToPanel, editTaskCardOnDisplay }
 
 function displayTasksFromList(listID) {
     clearTaskPanel();
     loadList(listID);
     //add new task btn as the first card in allTasks div
     const allTasksDivInList = document.querySelector('.taskList > div');
-    allTasksDivInList.prepend(createNewTaskCardBtn());
+    allTasksDivInList.prepend(createNewTaskCardBtn(listID));
 }
 
 function loadList(listID) {
@@ -38,14 +38,19 @@ function loadList(listID) {
 
 function addCardToPanel(listID, currentTaskID, taskFormInputArr) {
     const tasksContainer = document.querySelector(`.taskDisplay [data-list-id="${CSS.escape(listID)}"] > div`);
-    tasksContainer.appendChild(createTaskCard(currentTaskID, ...taskFormInputArr));
+    tasksContainer.appendChild(createTaskCard(currentTaskID, listID, ...taskFormInputArr));
 }
 
-function createTaskCard(taskID, name, description, dueDate, priority) {
+function createTaskCard(taskID, listID, name, description, dueDate, priority) {
     const taskCardDiv = document.createElement('div');
     taskCardDiv.classList.add(`taskCard`, `${priority}`);
     taskCardDiv.dataset.taskId = taskID;
     taskCardDiv.tabIndex = 0;
+    taskCardDiv.addEventListener('click', () => displayTaskForm(taskID, listID));
+    taskCardDiv.addEventListener('keyup', (event) => {
+        if (event.key === "Enter")
+            taskCardDiv.dispatchEvent(new Event('click'));
+    });
 
     const taskName = document.createElement('p');
     taskName.textContent = name;
@@ -69,6 +74,17 @@ function createTaskCard(taskID, name, description, dueDate, priority) {
     return taskCardDiv;
 }
 
+function editTaskCardOnDisplay(listID, taskCardID, name, description, dueDate, priority) {
+    const cardToEdit = document.querySelector(`.taskList[data-list-id="${listID}"] 
+                                                .taskCard[data-task-id="${taskCardID}"]`);
+    cardToEdit.className = `taskCard ${priority}`;
+
+    const cardTextNodes = Array.from(cardToEdit.querySelectorAll(`:scope > p`));
+    cardTextNodes[0].textContent = name;
+    cardTextNodes[1].textContent = description;
+    cardTextNodes[2].textContent = dueDate;
+}
+
 function clearTaskPanel() {
     const allTaskCards = Array.from(taskDisplay.children);
     for (const child of allTaskCards) {
@@ -76,12 +92,12 @@ function clearTaskPanel() {
     }
 }
 
-function createNewTaskCardBtn() {
+function createNewTaskCardBtn(listID) {
     const newTaskCardBtn = document.createElement('div');
     newTaskCardBtn.classList.add('addNewTask');
     newTaskCardBtn.setAttribute('aria-label', 'Add new task to your list');
     newTaskCardBtn.tabIndex = 0;
-    newTaskCardBtn.addEventListener('click', () => displayTaskForm());
+    newTaskCardBtn.addEventListener('click', () => displayTaskForm(false, listID));
     newTaskCardBtn.addEventListener('keyup', (event) => {
         if (event.key === "Enter")
             newTaskCardBtn.dispatchEvent(new Event('click'));

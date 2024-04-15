@@ -11,7 +11,7 @@ export default class TaskList {
         this.taskArr = [];
     }
 
-    getEditableData() {
+    getEditableListData() {
         let editableData = Object.values(this);
         editableData = editableData.slice(0, editableData.length - this.nonEditableFieldsCount);
         return editableData;
@@ -34,5 +34,13 @@ export default class TaskList {
 
     addNewTask(ID, taskFormInputArr) {
         this.taskArr.push(new Task(ID, ...taskFormInputArr));
+    }
+
+    getUserDataFromTask(taskID) {
+        return this.taskArr[taskID-1].getEditableTaskData(taskID);
+    }
+
+    editUserDataFromTask(taskID, inputArr) {
+        this.taskArr[taskID-1].editEditableFields(inputArr);
     }
 }

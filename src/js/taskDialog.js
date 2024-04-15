@@ -1,9 +1,10 @@
-import { addTaskToTheList } from "./allTaskLists";
-import { addCardToPanel } from "./taskPanelDOM";
+import { addTaskToTheList, getTaskDataFromTaskList, editTaskDataFromTaskList } from "./allTaskLists";
+import { addCardToPanel, editTaskCardOnDisplay } from "./taskPanelDOM";
 
 const newTaskForm = document.querySelector(".newTask");
 const inputArr = Array.from(document.querySelectorAll('.newTask div label+*'));
 const hiddenTaskID = document.querySelector('#taskIdForEdit');
+const hiddenFromListID = document.querySelector('#fromListId');
 
 export { addTaskFormHandler, displayTaskForm}
 
@@ -15,30 +16,43 @@ function addTaskFormHandler() {
     });
 }
 
-// for editListBtn - pass ID parameter of a parent li node
-function displayTaskForm(idForEdit = false) {
-    if (idForEdit) {
-        hiddenTaskID.value = idForEdit;
-        //fillInData(getTaskData(idForEdit));
-        console.log("Edit doesn't work yet!");
+// for editTaskCard - pass ID parameter of a card and parent list
+function displayTaskForm(taskIdForEdit = false, fromListID) {
+    hiddenFromListID.value = fromListID;
+    if (taskIdForEdit) {
+        hiddenTaskID.value = taskIdForEdit;
+        loadTaskDataInForm(fromListID, taskIdForEdit);
     }
     newTaskForm.showModal();
 }
 
 function createOrEditTask() {
-    const listID = (document.querySelector('.taskDisplay .taskList')).dataset.listId;
-    createTask(+listID);  // add edit later
+    const listID = hiddenFromListID.value;
+    const taskID = hiddenTaskID.value;
+    const inputValuesArr = inputArr.map((inputField) => inputField.value);
+
+    if (taskID)
+        editTask(listID, taskID, inputValuesArr);
+    else createTask(listID, inputValuesArr);
 }
 
-function createTask(listID) {
-    const formTaskInput = inputArr.map((inputField) => inputField.value);
-    const currentTaskID = addTaskToTheList(listID, formTaskInput);
-    addCardToPanel(listID, currentTaskID, formTaskInput);
+function createTask(listID, inputValuesArr) {
+    const currentTaskID = addTaskToTheList(listID, inputValuesArr);
+    addCardToPanel(listID, currentTaskID, inputValuesArr);
 }
 
-/*function fillInData(name) {
-    nameInput.value = name;
-}*/
+function loadTaskDataInForm(fromListID, taskIdForEdit) {
+    const taskDataArr = getTaskDataFromTaskList(fromListID, taskIdForEdit);
+    inputArr.forEach(function (inputField, i) {
+        inputField.value = taskDataArr[i];
+    });
+}
+
+function editTask(listID, taskID, inputValuesArr) {
+    //add edit cards on data and DOM sides
+    editTaskDataFromTaskList(listID, taskID, inputValuesArr);
+    editTaskCardOnDisplay(listID, taskID, ...inputValuesArr);
+}
 
 function clearTaskInput() {
     for (const inputField of inputArr) {
@@ -46,4 +60,5 @@ function clearTaskInput() {
     }
     newTaskForm.returnValue = "";
     hiddenTaskID.value = null;
+    hiddenFromListID.value = null;
 }

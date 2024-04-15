@@ -1,4 +1,4 @@
-import { addTaskList, editTaskListData, getListEditableData } from "./allTaskLists";
+import { addTaskList, editTaskListData, getUserDataFromList } from "./allTaskLists";
 import { addListTab, editListTab } from "./listsPanelDOM";
 
 const newListForm = document.querySelector(".newList");
@@ -19,7 +19,7 @@ function addListFormHandler() {
 function displayListForm(idForEdit = false) {
     if (idForEdit) {
         hiddenListID.value = idForEdit;
-        loadListData(idForEdit);
+        loadListDataToForm(idForEdit);
     }
     newListForm.showModal();
 }
@@ -36,16 +36,16 @@ function createList(inputValuesArr) {
     addListTab(currentListID, ...inputValuesArr);
 };
 
-function loadListData(listID) {
-    const taskListDataArr = getListEditableData(listID);
+function loadListDataToForm(listID) {
+    const taskListDataArr = getUserDataFromList(listID);
     inputArr.forEach(function (inputField, i) {
         inputField.value = taskListDataArr[i];
     });
 }
 
 function editList(inputValuesArr) {
-    editListTab(hiddenListID.value, ...inputValuesArr);
     editTaskListData(hiddenListID.value, inputValuesArr);
+    editListTab(hiddenListID.value, ...inputValuesArr);
 }
 
 function clearListInput() {

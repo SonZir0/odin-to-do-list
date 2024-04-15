@@ -7,7 +7,7 @@ const taskGroupsSection = document.querySelector('.taskGroups');
 const listOfTaskLists = document.querySelector('ul');
 const showAllBtn = document.querySelector('.showAll');
 
-export { addListTab, editListTab, initAddListBtn}
+export { addListTab, editListTab, initAddListBtn }
 
 function addListTab(currentListID, name) {
     const newTaskListTab = document.createElement('li');
@@ -24,11 +24,6 @@ function addListTab(currentListID, name) {
     showAllBtn.disabled = false;
 }
 
-function editListTab(currentListID, newName) {
-    const nodeToEdit = document.querySelector(`li[data-list-id="${currentListID}"] button:first-of-type`);
-    nodeToEdit.textContent = newName;
-}
-
 function addRenameRemoveMenu(liNode) {
     const rightBtn = document.createElement('button');
     const optionsIcon = new Image(35, 35);
@@ -41,6 +36,15 @@ function addRenameRemoveMenu(liNode) {
     });
     liNode.appendChild(rightBtn);
     //later add a button to remove list
+}
+
+function editListTab(currentListID, newName) {
+    const listNameBtn = document.querySelector(`li[data-list-id="${currentListID}"] button:first-of-type`);
+    listNameBtn.textContent = newName;
+
+    // refresh display in case user edits taskList while it's shown on the right panel
+    if (listNameBtn.parentElement.classList[0] === 'chosen')
+        displayTasksFromList(listNameBtn.parentElement.dataset.listId);
 }
 
 function loadClickedList(clickedListNode) {
