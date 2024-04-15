@@ -42,15 +42,10 @@ function addCardToPanel(listID, currentTaskID, taskFormInputArr) {
 }
 
 function createTaskCard(taskID, listID, name, description, dueDate, priority) {
-    const taskCardDiv = document.createElement('div');
+    const taskCardDiv = document.createElement('button');
     taskCardDiv.classList.add(`taskCard`, `${priority}`);
     taskCardDiv.dataset.taskId = taskID;
-    taskCardDiv.tabIndex = 0;
     taskCardDiv.addEventListener('click', () => displayTaskForm(taskID, listID));
-    taskCardDiv.addEventListener('keyup', (event) => {
-        if (event.key === "Enter")
-            taskCardDiv.dispatchEvent(new Event('click'));
-    });
 
     const taskName = document.createElement('p');
     taskName.textContent = name;
@@ -93,15 +88,10 @@ function clearTaskPanel() {
 }
 
 function createNewTaskCardBtn(listID) {
-    const newTaskCardBtn = document.createElement('div');
+    const newTaskCardBtn = document.createElement('button');
     newTaskCardBtn.classList.add('addNewTask');
     newTaskCardBtn.setAttribute('aria-label', 'Add new task to your list');
-    newTaskCardBtn.tabIndex = 0;
     newTaskCardBtn.addEventListener('click', () => displayTaskForm(false, listID));
-    newTaskCardBtn.addEventListener('keyup', (event) => {
-        if (event.key === "Enter")
-            newTaskCardBtn.dispatchEvent(new Event('click'));
-    });
 
     const plusImg = new Image(100, 100);
     plusImg.src = plusIcon;
