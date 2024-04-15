@@ -4,6 +4,7 @@ import { addListTab, editListTab } from "./listsPanelDOM";
 const newListForm = document.querySelector(".newList");
 const inputArr = Array.from(document.querySelectorAll('.newList div label+*'));
 const hiddenListID = document.querySelector('#listIdForEdit');
+const deleteListBtn = document.querySelector('#deleteListBtn');
 
 export { addListFormHandler, displayListForm }
 
@@ -19,6 +20,7 @@ function addListFormHandler() {
 function displayListForm(idForEdit = false) {
     if (idForEdit) {
         hiddenListID.value = idForEdit;
+        deleteListBtn.removeAttribute('hidden');
         loadListDataToForm(idForEdit);
     }
     newListForm.showModal();
@@ -54,4 +56,5 @@ function clearListInput() {
     }
     newListForm.returnValue = "";
     hiddenListID.value = null;
+    deleteListBtn.setAttribute('hidden', 'hidden');
 };

@@ -5,6 +5,7 @@ const newTaskForm = document.querySelector(".newTask");
 const inputArr = Array.from(document.querySelectorAll('.newTask div label+*'));
 const hiddenTaskID = document.querySelector('#taskIdForEdit');
 const hiddenFromListID = document.querySelector('#fromListId');
+const deleteTaskBtn = document.querySelector('#deleteTaskBtn');
 
 export { addTaskFormHandler, displayTaskForm}
 
@@ -21,6 +22,7 @@ function displayTaskForm(taskIdForEdit = false, fromListID) {
     hiddenFromListID.value = fromListID;
     if (taskIdForEdit) {
         hiddenTaskID.value = taskIdForEdit;
+        deleteTaskBtn.removeAttribute('hidden');
         loadTaskDataInForm(fromListID, taskIdForEdit);
     }
     newTaskForm.showModal();
@@ -61,4 +63,5 @@ function clearTaskInput() {
     newTaskForm.returnValue = "";
     hiddenTaskID.value = null;
     hiddenFromListID.value = null;
+    deleteTaskBtn.setAttribute('hidden', 'hidden');
 }
