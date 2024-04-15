@@ -11,6 +11,10 @@ export default class TaskList {
         this.taskArr = [];
     }
 
+    findTaskByID(ID) {
+        return this.taskArr.find((task) => task.taskID === +ID);
+    }
+
     getEditableListData() {
         let editableData = Object.values(this);
         editableData = editableData.slice(0, editableData.length - this.nonEditableFieldsCount);
@@ -37,10 +41,16 @@ export default class TaskList {
     }
 
     getUserDataFromTask(taskID) {
-        return this.taskArr[taskID-1].getEditableTaskData(taskID);
+        return this.findTaskByID(taskID).getEditableTaskData(taskID);
     }
 
     editUserDataFromTask(taskID, inputArr) {
-        this.taskArr[taskID-1].editEditableFields(inputArr);
+        const taskToEdit = this.findTaskByID(taskID);
+        taskToEdit.editEditableFields(inputArr);
+    }
+
+    deleteTaskData(ID) {
+        const taskIndex = this.taskArr.findIndex((task) => task.taskID === +ID);
+        this.taskArr.splice(taskIndex, 1);
     }
 }

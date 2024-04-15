@@ -5,7 +5,8 @@ import { getTaskArrFromList } from './allTaskLists';
 
 const taskDisplay = document.querySelector('.taskDisplay');
 
-export { displayTasksFromList, addCardToPanel, editTaskCardOnDisplay, clearTaskPanel }
+export { displayTasksFromList, addCardToPanel, editTaskCardOnDisplay,
+         deleteTaskCardOnDisplay, clearTaskPanel }
 
 function displayTasksFromList(listID) {
     clearTaskPanel();
@@ -78,6 +79,12 @@ function editTaskCardOnDisplay(listID, taskCardID, name, description, dueDate, p
     cardTextNodes[0].textContent = name;
     cardTextNodes[1].textContent = description;
     cardTextNodes[2].textContent = dueDate;
+}
+
+function deleteTaskCardOnDisplay(listID, taskID) {
+    const cardToDelete = document.querySelector(`.taskList[data-list-id="${listID}"] 
+                                                .taskCard[data-task-id="${taskID}"]`);
+    cardToDelete.remove();
 }
 
 function clearTaskPanel() {

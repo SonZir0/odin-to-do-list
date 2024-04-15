@@ -8,7 +8,7 @@ const userData = {
         //list functions exports
 export { addTaskList, getUserDataFromList, editTaskListData, getTaskArrFromList, deleteTaskListData,
         //task functions exports
-         addTaskToTheList, getTaskDataFromTaskList, editTaskDataFromTaskList }
+         addTaskToTheList, getTaskDataFromTaskList, editTaskDataFromTaskList, deleteTaskFromTaskList }
 
 function findTaskListByID(ID) {
     return userData.userTaskLists.find((taskList) => taskList.listID === +ID);
@@ -55,4 +55,9 @@ function getTaskDataFromTaskList(listID, taskID) {
 function editTaskDataFromTaskList(listID, taskID, inputArr) {
     const foundList = findTaskListByID(listID);
     foundList.editUserDataFromTask(taskID, inputArr);
+}
+
+function deleteTaskFromTaskList(listID, taskID){
+    const foundList = findTaskListByID(listID);
+    foundList.deleteTaskData(taskID);
 }

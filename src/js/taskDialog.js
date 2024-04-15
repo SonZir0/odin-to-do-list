@@ -1,5 +1,6 @@
-import { addTaskToTheList, getTaskDataFromTaskList, editTaskDataFromTaskList } from "./allTaskLists";
-import { addCardToPanel, editTaskCardOnDisplay } from "./taskPanelDOM";
+import { addTaskToTheList, getTaskDataFromTaskList, editTaskDataFromTaskList,
+         deleteTaskFromTaskList } from "./allTaskLists";
+import { addCardToPanel, editTaskCardOnDisplay, deleteTaskCardOnDisplay } from "./taskPanelDOM";
 
 const newTaskForm = document.querySelector(".newTask");
 const inputArr = Array.from(document.querySelectorAll('.newTask div label+*'));
@@ -7,12 +8,14 @@ const hiddenTaskID = document.querySelector('#taskIdForEdit');
 const hiddenFromListID = document.querySelector('#fromListId');
 const deleteTaskBtn = document.querySelector('#deleteTaskBtn');
 
-export { addTaskFormHandler, displayTaskForm}
+export { addTaskFormHandler, displayTaskForm }
 
 function addTaskFormHandler() {
     newTaskForm.addEventListener("close", () => {
         if (newTaskForm.returnValue === "submit")
             createOrEditTask();
+        else if (newTaskForm.returnValue === "delete")
+            deleteTask();
         clearTaskInput();
     });
 }
@@ -54,6 +57,13 @@ function editTask(listID, taskID, inputValuesArr) {
     //add edit cards on data and DOM sides
     editTaskDataFromTaskList(listID, taskID, inputValuesArr);
     editTaskCardOnDisplay(listID, taskID, ...inputValuesArr);
+}
+
+function deleteTask() {
+    const taskID = hiddenTaskID.value;
+    const listID = hiddenFromListID.value;
+    deleteTaskFromTaskList(listID, taskID);
+    deleteTaskCardOnDisplay(listID, taskID);
 }
 
 function clearTaskInput() {
