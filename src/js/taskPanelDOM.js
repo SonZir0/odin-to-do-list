@@ -5,7 +5,7 @@ import { getTaskArrFromList } from './allTaskLists';
 
 const taskDisplay = document.querySelector('.taskDisplay');
 
-export { displayTasksFromList, addCardToPanel, editTaskCardOnDisplay }
+export { displayTasksFromList, addCardToPanel, editTaskCardOnDisplay, clearTaskPanel }
 
 function displayTasksFromList(listID) {
     clearTaskPanel();

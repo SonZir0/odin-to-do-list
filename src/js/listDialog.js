@@ -1,5 +1,5 @@
-import { addTaskList, editTaskListData, getUserDataFromList } from "./allTaskLists";
-import { addListTab, editListTab } from "./listsPanelDOM";
+import { addTaskList, editTaskListData, getUserDataFromList, deleteTaskListData } from "./allTaskLists";
+import { addListTab, editListTab, deleteListTab } from "./listsPanelDOM";
 
 const newListForm = document.querySelector(".newList");
 const inputArr = Array.from(document.querySelectorAll('.newList div label+*'));
@@ -12,6 +12,8 @@ function addListFormHandler() {
     newListForm.addEventListener("close", (event) => {
         if (newListForm.returnValue === "submit")
             createOrEditList();
+        else if (newListForm.returnValue === "delete")
+            deleteList();
         clearListInput();
     });
 }
@@ -48,6 +50,12 @@ function loadListDataToForm(listID) {
 function editList(inputValuesArr) {
     editTaskListData(hiddenListID.value, inputValuesArr);
     editListTab(hiddenListID.value, ...inputValuesArr);
+}
+
+function deleteList() {
+    const listID = hiddenListID.value;
+    deleteTaskListData(listID);
+    deleteListTab(listID);
 }
 
 function clearListInput() {
