@@ -1,3 +1,4 @@
+import './../css/dialog.css';
 import { addTaskList, editTaskListData, getUserDataFromList, deleteTaskListData } from "./allTaskLists";
 import { addListTab, editListTab, deleteListTab } from "./listsPanelDOM";
 

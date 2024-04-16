@@ -28,8 +28,10 @@
                 <input type="text" name="newListName" id="newListName" data-default="" required autofocus autocapitalize="on">
             </div>
             <input type="hidden" name="listIdForEdit" id="listIdForEdit">
-            <button type="submit" value="submit">Submit</button>
-            <button type="submit" id="deleteListBtn" value="delete" name="deleteListBtn" hidden formnovalidate>Delete List</button>
+            <div class="submitBtns">
+                <button type="submit" value="submit">Submit</button>
+                <button type="submit" id="deleteListBtn" value="delete" name="deleteListBtn" hidden formnovalidate>Delete List</button>
+            </div>
         </form>
     </dialog>
 
@@ -41,7 +43,7 @@
                 <label for="newTaskName">Task name: </label>
                 <input type="text" name="newTaskName" id="newTaskName" data-default="" required autofocus autocapitalize="on">
             </div>
-            <div>
+            <div class="descrContainer">
                 <label for="newTaskDescr">Task Description: </label>
                 <textarea name="newTaskDescr" id="newTaskDescr" data-default="" cols="30" rows="10"></textarea>
             </div>
@@ -59,8 +61,10 @@
             </div>
             <input type="hidden" name="taskIdForEdit" id="taskIdForEdit">
             <input type="hidden" name="fromListId" id="fromListId">
-            <button type="submit" value="submit">Submit</button>
-            <button type="submit" id="deleteTaskBtn" value="delete" name="deleteTaskBtn" hidden formnovalidate>Delete Task</button>
+            <div class="submitBtns">
+                <button type="submit" value="submit">Submit</button>
+                <button type="submit" id="deleteTaskBtn" value="delete" name="deleteTaskBtn" hidden formnovalidate>Delete Task</button>
+            </div>
         </form>
     </dialog>
 </body>

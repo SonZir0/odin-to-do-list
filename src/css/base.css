@@ -146,15 +146,3 @@ main {
         }
     }
 }
-
-dialog {
-    position: fixed;
-    bottom: 20%;
-
-    [aria-label="close"] {
-        appearance: none;
-        border-radius: 6px;
-        border: 2px solid;
-        float: right;
-    }
-}
