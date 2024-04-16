@@ -1,8 +1,10 @@
 import cogIcon from './../icons/cog-svgrepo-com.svg';
 import plusIcon from './../icons/plus-circle-1427-svgrepo-com.svg';
 import { displayListForm } from "./listDialog";
-import { displayTasksFromList, displayTasksFromAllLists, deleteTaskListFromDisplay,
-         refreshListName } from './taskPanelDOM';
+import {
+    displayTasksFromList, displayTasksFromAllLists, deleteTaskListFromDisplay,
+    refreshListName
+} from './taskPanelDOM';
 
 const taskGroupsSection = document.querySelector('.taskGroups');
 const listOfTaskLists = document.querySelector('ul');
@@ -93,5 +95,14 @@ function initAddListBtn() {
 
 function initShowAllBtn() {
     showAllBtn.addEventListener('click', loadAllTaskLists);
-    // add observer to disable showAllBtn if there's no taskLists
+
+    var deletionObserver = new MutationObserver(function (records) {
+        for (const record of records) {
+            if (record.removedNodes.length) {
+                if (!listOfTaskLists.children.length)
+                    showAllBtn.disabled = true;
+            }
+        }
+    });
+    deletionObserver.observe(listOfTaskLists, { childList: true });
 }
