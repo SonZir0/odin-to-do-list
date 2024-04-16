@@ -14,6 +14,26 @@
     padding: 1.5rem;
     overflow-y: auto;
 
+    &:empty {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+
+        &::before {
+            height: 100px;
+            width: 100px;
+            background-image: url(../icons/ldoge-svgrepo-com.svg);
+            background-size: 100px 100px;
+            content: "";
+        }
+        &::after {
+            content: 'Wow, such empty';
+            font-size: 2rem;
+        }
+    }
+
     h3 {
         font-size: 2rem;
         margin: 0px;
