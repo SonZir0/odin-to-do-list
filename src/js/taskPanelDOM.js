@@ -5,15 +5,30 @@ import { getTaskArrFromList } from './allTaskLists';
 
 const taskDisplay = document.querySelector('.taskDisplay');
 
-export { displayTasksFromList, addCardToPanel, editTaskCardOnDisplay,
-         deleteTaskCardOnDisplay, clearTaskPanel }
+export {
+    displayTasksFromList, displayTasksFromAllLists, addCardToPanel, editTaskCardOnDisplay,
+    deleteTaskCardOnDisplay, clearTaskPanel, refreshListName
+}
 
+// this function is to load tasks from one clicked list
 function displayTasksFromList(listID) {
     clearTaskPanel();
     loadList(listID);
     //add new task btn as the first card in allTasks div
     const allTasksDivInList = document.querySelector('.taskList > div');
     allTasksDivInList.prepend(createNewTaskCardBtn(listID));
+}
+
+function displayTasksFromAllLists(listIdArr) {
+    clearTaskPanel();
+    listIdArr.forEach((listID, index) => {
+        const tasksArr = getTaskArrFromList(listID);
+        if (tasksArr.length) {
+            loadList(listID);
+            if (index + 1 < listIdArr.length)
+                taskDisplay.append(createDividerDiv());
+        }
+    });
 }
 
 function loadList(listID) {
@@ -35,6 +50,7 @@ function loadList(listID) {
     for (const task of tasksArr) {
         addCardToPanel(listID, task.taskID, task.getEditableTaskData())
     }
+    return listContainer;
 }
 
 function addCardToPanel(listID, currentTaskID, taskFormInputArr) {
@@ -52,21 +68,15 @@ function createTaskCard(taskID, listID, name, description, dueDate, priority) {
     taskName.textContent = name;
     taskName.classList.add('name');
 
-    const divider1 = document.createElement('div');
-    divider1.classList.add('divider');
-
     const descr = document.createElement('p');
     descr.textContent = description;
     descr.classList.add('descr');
-
-    const divider2 = document.createElement('div');
-    divider2.classList.add('divider');
 
     const date = document.createElement('p');
     date.textContent = dueDate;
     date.classList.add('date');
 
-    taskCardDiv.append(taskName, divider1, descr, divider2, date);
+    taskCardDiv.append(taskName, createDividerDiv(), descr, createDividerDiv(), date);
     return taskCardDiv;
 }
 
@@ -82,9 +92,20 @@ function editTaskCardOnDisplay(listID, taskCardID, name, description, dueDate, p
 }
 
 function deleteTaskCardOnDisplay(listID, taskID) {
-    const cardToDelete = document.querySelector(`.taskList[data-list-id="${listID}"] 
-                                                .taskCard[data-task-id="${taskID}"]`);
+    const tasksInListContainer = document.querySelector(`.taskList[data-list-id="${listID}"] .allTasks`);
+    const cardToDelete = tasksInListContainer.querySelector(`:scope .taskCard[data-task-id="${taskID}"]`);
     cardToDelete.remove();
+    // piece below only works in show all, since in just 1 displayed list there's new card button
+    if (tasksInListContainer.children.length === 0) {
+        tasksInListContainer.parentElement.nextSibling.remove();    // delete divider too
+        tasksInListContainer.parentElement.remove();
+    }
+}
+
+function createDividerDiv() {
+    const divider = document.createElement('div');
+    divider.classList.add('divider');
+    return divider;
 }
 
 function clearTaskPanel() {
@@ -92,6 +113,12 @@ function clearTaskPanel() {
     for (const child of allTaskCards) {
         child.remove();
     }
+}
+
+function refreshListName(listID, newName) {
+    const taskListName = document.querySelector(`.taskList[data-list-id="${listID}"] > h3`);
+    if (taskListName)    // in case showAll doesn't show empty taskList
+        taskListName.textContent = newName;
 }
 
 function createNewTaskCardBtn(listID) {

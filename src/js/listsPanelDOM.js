@@ -1,13 +1,14 @@
 import cogIcon from './../icons/cog-svgrepo-com.svg';
 import plusIcon from './../icons/plus-circle-1427-svgrepo-com.svg';
 import { displayListForm } from "./listDialog";
-import { displayTasksFromList, clearTaskPanel } from './taskPanelDOM';
+import { displayTasksFromList, displayTasksFromAllLists, clearTaskPanel,
+         refreshListName } from './taskPanelDOM';
 
 const taskGroupsSection = document.querySelector('.taskGroups');
 const listOfTaskLists = document.querySelector('ul');
 const showAllBtn = document.querySelector('.showAll');
 
-export { addListTab, editListTab, deleteListTab, initAddListBtn }
+export { addListTab, editListTab, deleteListTab, initAddListBtn, initShowAllBtn }
 
 function addListTab(currentListID, name) {
     const newTaskListTab = document.createElement('li');
@@ -35,7 +36,6 @@ function addRenameRemoveMenu(liNode) {
         displayListForm(+rightBtn.parentElement.dataset.listId);
     });
     liNode.appendChild(rightBtn);
-    //later add a button to remove list
 }
 
 function editListTab(currentListID, newName) {
@@ -43,31 +43,40 @@ function editListTab(currentListID, newName) {
     listNameBtn.textContent = newName;
 
     // refresh display in case user edits taskList while it's shown on the right panel
-    if (listNameBtn.parentElement.classList[0] === 'chosen')
-        displayTasksFromList(listNameBtn.parentElement.dataset.listId);
+    if (listNameBtn.parentElement.classList.contains('chosen') || showAllBtn.classList.contains('chosen'))
+        refreshListName(currentListID, newName);
+
 }
 
 function deleteListTab(listID) {
     const listTab = document.querySelector(`li[data-list-id="${listID}"]`);
-    listTab.remove();
     // clear displayed taskList panel if viewed list is deleted
-    if (listTab.classList[0] === 'chosen')
+    if (listTab.classList.contains('chosen'))
         clearTaskPanel();
+    listTab.remove();
 }
 
 function loadClickedList(clickedListNode) {
-    if (clickedListNode.classList[0] !== "chosen") {
+    if (!clickedListNode.classList.contains("chosen")) {
         setChosenClass(clickedListNode);
         displayTasksFromList(clickedListNode.dataset.listId);
     }
 }
 
-function setChosenClass(clickedList) {
-    const oldChosenList = document.querySelector('.chosen');
-    if (oldChosenList)
-        oldChosenList.classList.toggle('chosen');
+function loadAllTaskLists() {
+    if (!showAllBtn.classList.contains("chosen")) {
+        setChosenClass(showAllBtn);
+        const listIdArr = Array.from(listOfTaskLists.children).map((list) => list.dataset.listId);
+        displayTasksFromAllLists(listIdArr);
+    }
+}
 
-    clickedList.classList.toggle('chosen');
+function setChosenClass(clickedNode) {
+    const oldChosenNode = document.querySelector('.chosen');
+    if (oldChosenNode)
+        oldChosenNode.classList.toggle('chosen');
+
+    clickedNode.classList.toggle('chosen');
 }
 
 function initAddListBtn() {
@@ -80,4 +89,9 @@ function initAddListBtn() {
     taskGroupsSection.appendChild(addListBtn);
 
     addListBtn.addEventListener("click", () => displayListForm());
+}
+
+function initShowAllBtn() {
+    showAllBtn.addEventListener('click', loadAllTaskLists);
+    // add observer to disable showAllBtn if there's no taskLists
 }

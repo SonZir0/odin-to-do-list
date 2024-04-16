@@ -117,4 +117,8 @@
         margin: 0.5rem 0px;
         border-bottom: 1px solid var(--border-color);
     }
+
+    & >.divider {
+        margin: 1.5rem 0px;
+    }
 }
