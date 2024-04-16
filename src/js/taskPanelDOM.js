@@ -7,7 +7,7 @@ const taskDisplay = document.querySelector('.taskDisplay');
 
 export {
     displayTasksFromList, displayTasksFromAllLists, addCardToPanel, editTaskCardOnDisplay,
-    deleteTaskCardOnDisplay, clearTaskPanel, refreshListName
+    deleteTaskCardFromDisplay, deleteTaskListFromDisplay, refreshListName
 }
 
 // this function is to load tasks from one clicked list
@@ -91,21 +91,25 @@ function editTaskCardOnDisplay(listID, taskCardID, name, description, dueDate, p
     cardTextNodes[2].textContent = dueDate;
 }
 
-function deleteTaskCardOnDisplay(listID, taskID) {
+function deleteTaskCardFromDisplay(listID, taskID) {
     const tasksInListContainer = document.querySelector(`.taskList[data-list-id="${listID}"] .allTasks`);
     const cardToDelete = tasksInListContainer.querySelector(`:scope .taskCard[data-task-id="${taskID}"]`);
-    cardToDelete.remove();
-    // piece below only works in show all, since in just 1 displayed list there's new card button
-    if (tasksInListContainer.children.length === 0) {
-        tasksInListContainer.parentElement.nextSibling.remove();    // delete divider too
-        tasksInListContainer.parentElement.remove();
-    }
+    /*  if the card to be deleted in showAll display (no newTaskCard button) is the last one,
+        delete empty list from display  */
+    if (tasksInListContainer.children.length === 1) 
+        deleteTaskListFromDisplay(listID);
+    else cardToDelete.remove(); // otherwise just one card
 }
 
-function createDividerDiv() {
-    const divider = document.createElement('div');
-    divider.classList.add('divider');
-    return divider;
+function deleteTaskListFromDisplay(listID) {
+    const taskListToDelete = document.querySelector(`.taskList[data-list-id="${listID}"]`);
+    /*  task lists should display either alone, or through showAll btn, with dividers in between
+        if there're siblings, then it's showAll with dividers  */
+    if (taskListToDelete) {     // check if the list is present on display (empty lists ignored by showAll)
+        if (taskListToDelete.nextSibling)
+            taskListToDelete.nextSibling.remove(); // delete divider
+        taskListToDelete.remove();
+    }
 }
 
 function clearTaskPanel() {
@@ -119,6 +123,12 @@ function refreshListName(listID, newName) {
     const taskListName = document.querySelector(`.taskList[data-list-id="${listID}"] > h3`);
     if (taskListName)    // in case showAll doesn't show empty taskList
         taskListName.textContent = newName;
+}
+
+function createDividerDiv() {
+    const divider = document.createElement('div');
+    divider.classList.add('divider');
+    return divider;
 }
 
 function createNewTaskCardBtn(listID) {

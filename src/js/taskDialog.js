@@ -1,6 +1,6 @@
 import { addTaskToTheList, getTaskDataFromTaskList, editTaskDataFromTaskList,
          deleteTaskFromTaskList } from "./allTaskLists";
-import { addCardToPanel, editTaskCardOnDisplay, deleteTaskCardOnDisplay } from "./taskPanelDOM";
+import { addCardToPanel, editTaskCardOnDisplay, deleteTaskCardFromDisplay } from "./taskPanelDOM";
 
 const newTaskForm = document.querySelector(".newTask");
 const inputArr = Array.from(document.querySelectorAll('.newTask div label+*'));
@@ -63,7 +63,7 @@ function deleteTask() {
     const taskID = hiddenTaskID.value;
     const listID = hiddenFromListID.value;
     deleteTaskFromTaskList(listID, taskID);
-    deleteTaskCardOnDisplay(listID, taskID);
+    deleteTaskCardFromDisplay(listID, taskID);
 }
 
 function clearTaskInput() {

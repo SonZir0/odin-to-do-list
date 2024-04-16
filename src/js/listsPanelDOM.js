@@ -1,7 +1,7 @@
 import cogIcon from './../icons/cog-svgrepo-com.svg';
 import plusIcon from './../icons/plus-circle-1427-svgrepo-com.svg';
 import { displayListForm } from "./listDialog";
-import { displayTasksFromList, displayTasksFromAllLists, clearTaskPanel,
+import { displayTasksFromList, displayTasksFromAllLists, deleteTaskListFromDisplay,
          refreshListName } from './taskPanelDOM';
 
 const taskGroupsSection = document.querySelector('.taskGroups');
@@ -51,8 +51,8 @@ function editListTab(currentListID, newName) {
 function deleteListTab(listID) {
     const listTab = document.querySelector(`li[data-list-id="${listID}"]`);
     // clear displayed taskList panel if viewed list is deleted
-    if (listTab.classList.contains('chosen'))
-        clearTaskPanel();
+    if (listTab.classList.contains('chosen') || showAllBtn.classList.contains('chosen'))
+        deleteTaskListFromDisplay(listID);
     listTab.remove();
 }
 
