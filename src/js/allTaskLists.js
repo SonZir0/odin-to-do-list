@@ -5,16 +5,17 @@ const userData = {
     nextTaskID: 1,
     userTaskLists: []
 }
-        //list functions exports
+//list functions exports
 export { addTaskList, getUserDataFromList, editTaskListData, getTaskArrFromList, deleteTaskListData,
-        //task functions exports
-         addTaskToTheList, getTaskDataFromTaskList, editTaskDataFromTaskList, deleteTaskFromTaskList }
+         //task functions exports
+         addTaskToTheList, getTaskDataFromTaskList, editTaskDataFromTaskList, deleteTaskFromTaskList
+}
 
+// lists functions
 function findTaskListByID(ID) {
     return userData.userTaskLists.find((taskList) => taskList.listID === +ID);
 }
 
-// lists functions
 function addTaskList(listFormInputArr) {
     userData.userTaskLists.push(new TaskList(userData.nextListID, ...listFormInputArr));
     return userData.nextListID++;
@@ -22,7 +23,7 @@ function addTaskList(listFormInputArr) {
 
 function editTaskListData(listID, listFormInputArr) {
     const foundList = findTaskListByID(listID);
-    foundList.editEditableFields(listFormInputArr);
+    foundList.editListData(listFormInputArr);
 }
 
 function deleteTaskListData(ID) {
@@ -32,12 +33,12 @@ function deleteTaskListData(ID) {
 
 function getUserDataFromList(listID) {
     const foundList = findTaskListByID(listID);
-    return foundList.getEditableListData();
+    return foundList.getListData();
 }
 
 function getTaskArrFromList(listID) {
-    const foundList = findTaskListByID(listID);
-    return foundList.getTaskArr();
+    const foundListDataArr = getUserDataFromList(listID);
+    return foundListDataArr[foundListDataArr.length - 1];   // taskArr is the last property in TaskList
 }
 
 // task functions
@@ -57,7 +58,7 @@ function editTaskDataFromTaskList(listID, taskID, inputArr) {
     foundList.editUserDataFromTask(taskID, inputArr);
 }
 
-function deleteTaskFromTaskList(listID, taskID){
+function deleteTaskFromTaskList(listID, taskID) {
     const foundList = findTaskListByID(listID);
     foundList.deleteTaskData(taskID);
 }

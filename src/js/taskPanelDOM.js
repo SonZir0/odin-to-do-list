@@ -48,7 +48,7 @@ function loadList(listID) {
 
     const tasksArr = getTaskArrFromList(listID);
     for (const task of tasksArr) {
-        addCardToPanel(listID, task.taskID, task.getEditableTaskData())
+        addCardToPanel(listID, task.taskID, task.getTaskData())
     }
     return listContainer;
 }

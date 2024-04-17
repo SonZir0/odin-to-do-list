@@ -6,25 +6,24 @@ export default class Task {
         this.dueDate = dueDate;
         this.priority = priority;
 
-        // add new input fields above this comment
-        this.nonEditableFieldsCount = 2; // if new nonEditableFields are added - adjust
+        // add new form input fields above this comment
         this.taskID = ID;
     }
 
-    getEditableTaskData() {
+    getTaskData() {
         let editableData = Object.values(this);
-        editableData = editableData.slice(0, editableData.length - this.nonEditableFieldsCount);
         return editableData;
     }
 
-    editEditableFields(taskFormInputArr) {
-        let editableFields = Object.keys(this);
-        editableFields = editableFields.slice(0, editableFields.length - this.nonEditableFieldsCount);
+    editTaskData(taskFormInputArr) {
+        let taskKeysArr = Object.keys(this);
+        // continue until taskID field. ID shouldn't be edited this way
+        taskFormInputArr.every((inputValue, iterator) => {
+            if (taskKeysArr[iterator] === "taskID")
+                return false
 
-        for (const key of editableFields) {
-            editableFields.forEach((key, iterator) => {
-                this[key] = taskFormInputArr[iterator];
-            });
-        }
+            this[taskKeysArr[iterator]] = inputValue;
+            return true;
+        });
     }
 }
