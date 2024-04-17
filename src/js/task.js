@@ -1,5 +1,5 @@
 export default class Task {
-    constructor(ID, name, description, dueDate, priority) {
+    constructor(name, description, dueDate, priority, ID) {
         // order of editable variables should correspond to html dialog/form structure
         this.name = name;
         this.description = description;

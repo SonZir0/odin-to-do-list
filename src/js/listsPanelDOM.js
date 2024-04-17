@@ -12,7 +12,7 @@ const showAllBtn = document.querySelector('.showAll');
 
 export { addListTab, editListTab, deleteListTab, initAddListBtn, initShowAllBtn }
 
-function addListTab(currentListID, name) {
+function addListTab(name, currentListID) {
     const newTaskListTab = document.createElement('li');
     const leftBtn = document.createElement('button');
 

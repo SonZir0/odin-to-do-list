@@ -38,7 +38,7 @@ function createOrEditList() {
 
 function createList(inputValuesArr) {
     const currentListID = addTaskList(inputValuesArr);
-    addListTab(currentListID, ...inputValuesArr);
+    addListTab(...inputValuesArr, currentListID);
 };
 
 function loadListDataToForm(listID) {

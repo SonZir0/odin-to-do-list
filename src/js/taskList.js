@@ -1,7 +1,7 @@
 import Task from './task.js'
 
 export default class TaskList {
-    constructor(ID, name) {
+    constructor(name, ID) {
         // order of editable variables should correspond to html dialog/form structure
         this.name = name;
 
@@ -31,8 +31,8 @@ export default class TaskList {
         return this.taskArr.find((task) => task.taskID === +ID);
     }
 
-    addNewTask(ID, taskFormInputArr) {
-        this.taskArr.push(new Task(ID, ...taskFormInputArr));
+    addNewTask(taskFormInputArr, ID) {
+        this.taskArr.push(new Task(...taskFormInputArr, ID));
     }
 
     getUserDataFromTask(taskID) {
