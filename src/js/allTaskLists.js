@@ -1,5 +1,6 @@
 import TaskList from './taskList.js'
 import { addListTab } from './listsPanelDOM.js';
+import defaultData from './../json/defaultTaskList.json';
 
 let storageIsAvailable = false;
 const userData = {
@@ -8,11 +9,12 @@ const userData = {
     userTaskLists: []
 }
 //list functions exports
-export { addTaskList, getUserDataFromList, editTaskListData, getTaskArrFromList, deleteTaskListData,
-         //task functions exports
-         addTaskToTheList, getTaskDataFromTaskList, editTaskDataFromTaskList, deleteTaskFromTaskList,
-         //storage functions
-         checkStorageAndLoadData
+export {
+    addTaskList, getUserDataFromList, editTaskListData, getTaskArrFromList, deleteTaskListData,
+    //task functions exports
+    addTaskToTheList, getTaskDataFromTaskList, editTaskDataFromTaskList, deleteTaskFromTaskList,
+    //storage functions
+    checkStorageAndLoadData
 }
 
 // lists functions
@@ -89,35 +91,34 @@ function checkStorageAndLoadData() {
 }
 
 function loadUserDataFromLocalStorage() {
-    console.log(userData);
     let savedUserData = localStorage.getItem('storedToDoData');
-    if (savedUserData) {
-        savedUserData = JSON.parse(savedUserData);
-        
-        // assign userData fields (except listArr)
-        const userDataKeysArr = Object.keys(userData);
-        userDataKeysArr.every((key, iterator) => {
-            if (key === "userTaskLists")
-                return false;
-            userData[key] = savedUserData[key];
-            return true;
-        });
+    savedUserData = JSON.parse(savedUserData);
 
-        // create TaskLists
-        savedUserData.userTaskLists.forEach((taskList, listIterator) => {
-            // all the input fields + ID. TaskArr field is redundant as a parametr
-            const taskListData = Object.values(taskList);
-            userData.userTaskLists.push(new TaskList(...taskListData));
-            addListTab(...taskListData);
+    if (!savedUserData)
+        savedUserData = defaultData;
 
-            // create tasks
-            taskList.taskArr.forEach((task, taskIterator) => {
-                // all the input fields + ID.
-                userData.userTaskLists[listIterator].addNewTask(Object.values(task));
-            });
+    // assign userData fields (except listArr)
+    const userDataKeysArr = Object.keys(userData);
+    userDataKeysArr.every((key, iterator) => {
+        if (key === "userTaskLists")
+            return false;
+        userData[key] = savedUserData[key];
+        return true;
+    });
+
+    // create TaskLists
+    savedUserData.userTaskLists.forEach((taskList, listIterator) => {
+        // all the input fields + ID. TaskArr field is redundant as a parametr
+        const taskListData = Object.values(taskList);
+        userData.userTaskLists.push(new TaskList(...taskListData));
+        addListTab(...taskListData);
+
+        // create tasks
+        taskList.taskArr.forEach((task, taskIterator) => {
+            // all the input fields + ID.
+            userData.userTaskLists[listIterator].addNewTask(Object.values(task));
         });
-    }
-    console.log(userData);
+    });
 }
 
 function saveUserDataToLocalStorage() {

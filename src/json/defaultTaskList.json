@@ -1,0 +1,33 @@
+{
+    "nextListID":2,
+    "nextTaskID":4,
+    "userTaskLists":[
+        {
+            "name":"Default List",
+            "listID":1,
+            "taskArr":[
+                {
+                    "name":"Make dinner",
+                    "description":"Look up that raspberry pie recipe that Mom really liked",
+                    "dueDate":"2024-04-18",
+                    "priority":"medium",
+                    "taskID":1
+                },
+                {
+                    "name":"Go shopping to the SuperMarket",
+                    "description":"On the way back buy some apples",
+                    "dueDate":"2024-04-19",
+                    "priority":"low",
+                    "taskID":2
+                },
+                {
+                    "name":"Go to the cinema",
+                    "description":"Meet up with friends at 13:30 and buy some snacks before the show",
+                    "dueDate":"2024-04-20",
+                    "priority":"high",
+                    "taskID":3
+                }
+            ]
+        }
+    ]
+}
